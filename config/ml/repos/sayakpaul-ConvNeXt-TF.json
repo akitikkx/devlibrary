@@ -1,4 +1,5 @@
 {
+  "expertise": "INTERMEDIATE",
   "version": 1,
   "source": "github",
   "authorIds": [
@@ -13,6 +14,7 @@
   "pages": [],
   "tags": [
     "vision",
-    "library"
+    "library",
+    "keras"
   ]
 }

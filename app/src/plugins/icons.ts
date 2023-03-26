@@ -30,6 +30,8 @@ import {
   faCaretUp,
   faAngleLeft,
   faAngleRight,
+  faAngleDown,
+  faAngleUp,
   faTimesCircle,
   faUser,
   faTimes,
@@ -38,6 +40,7 @@ import {
   faExclamationCircle,
   faFilter,
   faChevronDown,
+  faChevronRight,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
@@ -54,6 +57,8 @@ library.add(
   faAngleLeft,
   faAngleRight,
   faTimesCircle,
+  faAngleUp,
+  faAngleDown,
   faUser,
   faBookmark,
   faTimes,
@@ -62,6 +67,7 @@ library.add(
   faExclamationCircle,
   faFilter,
   faChevronDown,
+  faChevronRight,
   faInfoCircle,
 
   faGithub,

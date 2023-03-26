@@ -21,7 +21,8 @@ export enum ProductKey {
   FIREBASE = "firebase",
   FLUTTER = "flutter",
   ML = "ml",
-  ASSISTANT='assistant'
+  ASSISTANT = "assistant",
+  MAPS = "maps"
 }
 
 export interface ProductTag {
@@ -136,3 +137,8 @@ export interface RepoDataHolder {
 }
 
 export type BlogOrRepoDataHolder = BlogDataHolder | RepoDataHolder;
+
+export interface BreadcrumbLink {
+  name: string;
+  path: string;
+}

@@ -15,23 +15,70 @@
 -->
 
 <template>
-  <HeaderBodyLayout>
-    <template v-if="loaded" v-slot:header>
-      <!-- Header (Desktop) -->
-      <div class="desktop-only">
-        <div
-          :class="[productStyle.bg, productStyle.text]"
-          class="py-20 grid grid-cols-10 gap-4"
-        >
-          <div class="col-start-2 col-span-7">
-            <h1 :class="[productStyle.text]">
-              {{ repo.metadata.name }}
-            </h1>
-            <p class="mt-2">
-              {{ repo.metadata.longDescription }}
-            </p>
+  <div class="content-bg">
+    <Breadcrumbs v-if="loaded" :links="getBreadcrumbs()" class="bg-white" />
+    <HeaderBodyLayout>
+      <template v-if="loaded" v-slot:header>
+        <!-- Header (Desktop) -->
+        <div class="desktop-only">
+          <div
+            class="header-image full-bleed-header-image repo-hero px-std border-b border-gray-100"
+            style="
+              --header-bg-image-desktop: url('/img/banners/desktop/repo-wide.png');
+            "
+          >
+            <div class="grid">
+              <h1>
+                {{ repo.metadata.name }}
+              </h1>
+              <div class="repo-items">
+                <p class="repo-item">
+                  <font-awesome-icon fixed-width icon="star" />
+                  {{ repo.stats.stars }}
+                </p>
+                <p class="repo-item">
+                  <font-awesome-icon fixed-width icon="code-branch" />
+                  {{ repo.stats.forks }}
+                </p>
+              </div>
+              <p v-if="authors.length > 0" class="flex gap-2 mt-2">
+                <AuthorLink
+                  v-for="author in authors"
+                  :key="author.id"
+                  :author="author"
+                  class="opacity-80 hover:opacity-100"
+                />
+              </p>
+              <p class="text-gray-500 text-sm">
+                Approved on {{ (new Date(repo.stats.dateAdded)).toLocaleDateString('en-us', { day: "numeric" , year:"numeric", month:"long"}) }}
+              </p>
+              <p class="mt-2 hero-description">
+                {{ repo.metadata.longDescription }}
+              </p>
+              <a
+                target="blank"
+                :href="`https://github.com/${repo.metadata.owner}/${repo.metadata.repo}`"
+              >
+                <MaterialButton type="primary" class="mt-8">
+                  View on GitHub
+                  <font-awesome-icon icon="external-link-alt" class="ml-1" />
+                </MaterialButton>
+              </a>
+            </div>
+          </div>
+        </div>
+        <img src="/img/banners/desktop/repo-clipart.png" class="hero-clipart" />
 
-            <p v-if="authors.length > 0" class="flex gap-2 mt-2">
+        <!-- Header (Mobile) -->
+        <div class="mobile-only">
+          <div :class="[productStyle.bg, productStyle.text]" class="py-4 px-8">
+            <h2 :class="[productStyle.text]" class="mb-2">
+              {{ repo.metadata.name }}
+            </h2>
+            <p class="opacity-80 text-sm">
+              {{ repo.metadata.shortDescription }}
+            </p>
+            <p v-if="authors.length > 0" class="flex gap-2 mt-4">
               <AuthorLink
                 v-for="author in authors"
                 :key="author.id"
@@ -39,124 +86,114 @@
                 class="opacity-80 hover:opacity-100"
               />
             </p>
-
-            <a
-              target="blank"
-              :href="`https://github.com/${repo.metadata.owner}/${repo.metadata.repo}`"
-            >
-              <MaterialButton type="secondary" class="mt-8">
-                View on GitHub
-                <font-awesome-icon icon="external-link-alt" class="ml-1" />
-              </MaterialButton>
-            </a>
-          </div>
-
-          <div class="col-start-9 col-span-2">
-            <p class="pt-1">
-              {{ repo.stats.stars }}
-              <font-awesome-icon fixed-width icon="star" />
-            </p>
-            <p class="pt-1">
-              {{ repo.stats.forks }}
-              <font-awesome-icon fixed-width icon="code-branch" />
-            </p>
           </div>
         </div>
-      </div>
+      </template>
 
-      <!-- Header (Mobile) -->
-      <div class="mobile-only">
-        <div :class="[productStyle.bg, productStyle.text]" class="py-4 px-8">
-          <h2 :class="[productStyle.text]" class="mb-2">
-            {{ repo.metadata.name }}
-          </h2>
-          <p class="opacity-80 text-sm">
-            {{ repo.metadata.shortDescription }}
-          </p>
-          <p v-if="authors.length > 0" class="flex gap-2 mt-4">
-            <AuthorLink
-              v-for="author in authors"
-              :key="author.id"
-              :author="author"
-              class="opacity-80 hover:opacity-100"
-            />
-          </p>
-        </div>
-      </div>
-    </template>
-
-    <template v-if="loaded" v-slot:sidebar>
-      <!-- Side bar -->
-      <div>
-        <p class="uppercase font-medium mt-4 mb-2">{{ product.name }}</p>
-        <ul class="text-sm">
-          <li>
-            <router-link :to="`/products/${productKey}`"
-              >All Projects</router-link
-            >
-          </li>
-          <li><a :href="product.docsUrl" target="_blank">Official Docs</a></li>
-        </ul>
-
-        <p class="uppercase font-medium mt-4 mb-2">Project</p>
-        <ul class="text-sm">
-          <li><router-link :to="fullPagePath()">Home</router-link></li>
-          <li v-for="p in repo.metadata.pages" :key="p.path">
-            <router-link :to="fullPagePath(p.path)">{{ p.name }}</router-link>
-          </li>
-          <li>
-            <router-link :to="fullPagePath('license')">License</router-link>
-          </li>
-        </ul>
-
-        <div v-if="repo.metadata.links">
-          <p class="uppercase font-medium mt-4 mb-2">Links</p>
+      <template v-if="loaded" v-slot:sidebar>
+        <!-- Side bar -->
+        <div>
+          <p class="uppercase font-medium mt-4 mb-2">{{ product.name }}</p>
           <ul class="text-sm">
-            <li v-for="l in repo.metadata.links" :key="l.href">
-              <a :href="l.href" target="_blank">{{ l.title }}</a>
+            <li>
+              <router-link :to="`/products/${productKey}`"
+                >All Projects</router-link
+              >
+            </li>
+            <li>
+              <a :href="product.docsUrl" target="_blank">Official Docs</a>
             </li>
           </ul>
+
+          <p class="uppercase font-medium mt-4 mb-2">Project</p>
+          <ul class="text-sm">
+            <li><router-link :to="fullPagePath()">Home</router-link></li>
+            <li v-for="p in repo.metadata.pages" :key="p.path">
+              <router-link :to="fullPagePath(p.path)">{{ p.name }}</router-link>
+            </li>
+            <li>
+              <router-link :to="fullPagePath('license')">License</router-link>
+            </li>
+          </ul>
+
+          <div v-if="repo.metadata.links">
+            <p class="uppercase font-medium mt-4 mb-2">Links</p>
+            <ul class="text-sm">
+              <li v-for="l in repo.metadata.links" :key="l.href">
+                <a :href="l.href" target="_blank">{{ l.title }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </template>
+
+      <!-- Body -->
+      <div class="grid grid-cols-10 px-2 lg:gap-4 lg:grid-cols-10 lg:mb-0">
+        <div
+          v-if="content != null"
+          class="grid grid-cols-10 col-span-10 lg:col-span-7"
+        >
+          <div class="col-span-10">
+            <template v-for="(s, i) in content.sections">
+              <!-- Only show headers for sections after the first one -->
+              <h2
+                v-if="i > 0 && s.name.length > 0"
+                class="mt-8 mb-2"
+                :key="`header-${s.name}`"
+              >
+                {{ s.name }}
+              </h2>
+              <!-- The 'prose' class comes from the Tailwind typography plugin -->
+              <div
+                class="bg-white mt-8 ml-2 mr-2 lg:mr-0 lg:ml-4"
+                :key="`section-${s.name}`"
+              >
+                <div
+                  class="font-bold border-b pl-8 pt-3 pb-3"
+                  :key="`header-${s.name}`"
+                >
+                  {{ content.path }}
+                </div>
+                <div
+                  v-if="s.content.length > 0"
+                  class="prose mt-4 lg:mt-2 p-8"
+                  :key="`content-${s.name}`"
+                  v-html="sanitize(s.content)"
+                ></div>
+              </div>
+            </template>
+          </div>
+        </div>
+        <div class="grid grid-cols-10 col-span-10 px-1 pt-8 mb-8 lg:col-span-3">
+          <div
+            class="mx-2 lg:mx-0 col-span-10 lg:col-start-1"
+            v-if="content != null && projects.length > 0"
+          >
+            <div class="bg-white border-b pl-4 pb-2 pt-4">Related Content</div>
+            <RepoOrBlogCard
+              v-for="project in projects"
+              class="bg-white"
+              :key="project.data.id"
+              :project="project"
+              :showLogo="true"
+              :showTags="false"
+            />
+          </div>
+        </div>
+
+        <!-- For debugging only: refresh content button -->
+        <div v-if="showRefreshButton" class="fixed z-50 bottom-4 right-4">
+          <MaterialButton
+            type="primary"
+            class="mt-8"
+            @click.native="refreshContent()"
+          >
+            Refresh
+          </MaterialButton>
         </div>
       </div>
-    </template>
-
-    <!-- Body -->
-    <div class="grid grid-cols-10 gap-4 mb-10 lg:mb-20">
-      <div
-        v-if="content != null"
-        class="col-span-10 px-8 lg:px-0 lg:col-start-2 lg:col-span-8"
-      >
-        <template v-for="(s, i) in content.sections">
-          <!-- Only show headers for sections after the first one -->
-          <h2
-            v-if="i > 0 && s.name.length > 0"
-            class="mt-8 mb-2"
-            :key="`header-${s.name}`"
-          >
-            {{ s.name }}
-          </h2>
-          <!-- The 'prose' class comes from the Tailwind typography plugin -->
-          <div
-            v-if="s.content.length > 0"
-            class="prose mt-4 lg:mt-8"
-            :key="`content-${s.name}`"
-            v-html="sanitize(s.content)"
-          ></div>
-        </template>
-      </div>
-
-      <!-- For debugging only: refresh content button -->
-      <div v-if="showRefreshButton" class="fixed z-50 bottom-4 right-4">
-        <MaterialButton
-          type="primary"
-          class="mt-8"
-          @click.native="refreshContent()"
-        >
-          Refresh
-        </MaterialButton>
-      </div>
-    </div>
-  </HeaderBodyLayout>
+    </HeaderBodyLayout>
+  </div>
 </template>
 
 <script lang="ts">
@@ -167,17 +204,26 @@ import DOMPurify from "dompurify";
 import MaterialButton from "@/components/MaterialButton.vue";
 import AuthorLink from "@/components/AuthorLink.vue";
 import HeaderBodyLayout from "@/components/HeaderBodyLayout.vue";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import UIModule from "@/store/ui";
+import RepoOrBlogCard from "@/components/RepoOrBlogCard.vue";
 
 import { ALL_PRODUCTS } from "../../../shared/product";
 import {
   AuthorData,
+  BreadcrumbLink,
   RepoData,
   RepoPage,
   ProductConfig,
 } from "../../../shared/types";
 import * as util from "../../../shared/util";
-import { fetchAuthor, fetchRepo, fetchRepoPage } from "@/plugins/data";
+import {
+  fetchAuthor,
+  fetchRepo,
+  fetchRepoPage,
+  wrapInHolders,
+  recommendedRepos,
+} from "@/plugins/data";
 import { waitForHljsLoad } from "@/plugins/preload";
 import { getStyle, ProductStyle } from "@/model/product";
 
@@ -190,6 +236,8 @@ declare const hljs: any;
     MaterialButton,
     AuthorLink,
     HeaderBodyLayout,
+    Breadcrumbs,
+    RepoOrBlogCard,
   },
 })
 export default class Repo extends Vue {
@@ -197,6 +245,14 @@ export default class Repo extends Vue {
   public repo: RepoData | null = null;
   public content: RepoPage | null = null;
   public authors: AuthorData[] = [];
+  public reposRecommended: RepoData[] = [];
+
+  public getBreadcrumbs(): BreadcrumbLink[] {
+    return [
+      { name: this.product?.name ?? "Product", path: "../" },
+      { name: this.repo?.metadata.name ?? "Repo", path: "" },
+    ];
+  }
 
   private productKey!: string;
   private id!: string;
@@ -227,6 +283,15 @@ export default class Repo extends Vue {
       return;
     }
 
+    // fetch recommended repo data for the repo
+    this.reposRecommended = await recommendedRepos(
+      this.productKey,
+      {},
+      repo.metadata.tags,
+      repo.metadata.expertise,
+      repo.id
+    );
+
     const authorIds = this.repo.metadata.authorIds || [];
     for (const aid of authorIds) {
       // We don't want a failed author fetch to block the rest of the page rendering
@@ -249,11 +314,55 @@ export default class Repo extends Vue {
 
     const content = await fetchRepoPage(this.productKey, this.id, pageKey);
     if (content) {
+      for (const section of content.sections) {
+        let indexCursor = 0;
+        while (
+          section.content
+            .substring(indexCursor)
+            .includes('src="https://github.com')
+        ) {
+          const startIndex =
+            section.content
+              .substring(indexCursor)
+              .indexOf('src="https://github.com') +
+            indexCursor +
+            5;
+          const endIndex =
+            startIndex + section.content.substring(startIndex).indexOf('"');
+          const imageHtml = section.content.substring(startIndex, endIndex);
+          const imageExists = await this.imageExists(imageHtml);
+          if (!imageExists) {
+            const formattedImageHtml = imageHtml
+              .replace(
+                "https://github.com",
+                "https://raw.githubusercontent.com"
+              )
+              .replace("/blob", "");
+            section.content = section.content.replace(
+              imageHtml,
+              formattedImageHtml
+            );
+          }
+          indexCursor = endIndex;
+        }
+      }
       this.content = content;
     } else {
       this.$router.push("/404");
       return;
     }
+  }
+
+  public async imageExists(imgUrl: string) {
+    if (!imgUrl) {
+      return false;
+    }
+    return new Promise((res) => {
+      const image = new Image();
+      image.onload = () => res(true);
+      image.onerror = () => res(false);
+      image.src = imgUrl;
+    });
   }
 
   public fullPagePath(path?: string) {
@@ -291,6 +400,12 @@ export default class Repo extends Vue {
   get loaded() {
     return this.repo != null;
   }
+
+  get projects() {
+    return wrapInHolders([], this.reposRecommended).sort((a, b) => {
+      return b.data.stats.lastUpdated - a.data.stats.lastUpdated;
+    });
+  }
 }
 </script>
 
@@ -303,7 +418,7 @@ a {
   @apply hover:underline;
 }
 
-.prose {
-  max-width: 900px;
+.content-bg {
+  background-color: #f8f9fa;
 }
 </style>

@@ -1,8 +1,9 @@
 {
+  "expertise": "BEGINNER",
   "version": 1,
   "source": "medium",
   "authorIds": [
-    "link"
+    "arunachermadurai18"
   ],
   "author": "Aruna Chermadurai",
   "title": "In this blog, I have written about the data visualization using Seaborn Library in Python for beginners like me.",

@@ -1,4 +1,5 @@
 {
+  "expertise": "INTERMEDIATE",
   "version": 1,
   "source": "github",
   "authorIds": [
@@ -14,6 +15,7 @@
   "tags": [
     "vision",
     "nlp",
-    "collection"
+    "collection",
+    "tpu"
   ]
 }

@@ -21,7 +21,7 @@ export const ALL_PRODUCTS: Record<string, ProductConfig> = {
     key: ProductKey.FIREBASE,
     name: "Firebase",
     description:
-      "Firebase helps you build and run successful apps. Backed by Google and loved by app development teams - from startups to global enterprises.",
+      "Firebase helps you build and run successful apps. Backed by Google and loved by app development teams - from startups to global enterprises. Dev Library has a curated collection of Firebase blogs, open source projects, and tutorials contributed by developers around the world. Explore Dev Library today for your next Firebase project!",
     docsUrl: "https://firebase.google.com/docs/",
     tags: [
       {
@@ -58,8 +58,8 @@ export const ALL_PRODUCTS: Record<string, ProductConfig> = {
     key: ProductKey.ML,
     name: "Machine Learning",
     description:
-      "Machine Learning provides new ways of solving problems that are not solvable with traditional computational approaches. Google provides a wide range of Machine Learning technologies and products for developers to use and develop for their projects.",
-    docsUrl: "https://ai.google/tools/",
+      " Google provides a wide range of Machine Learning technologies and products for developers to use and develop for their projects. These include TensorFlow, TensorFlow.js, TensorFlow Lite, TensorFlow Extended, JAX, Keras and Mediapipe. Dev Library has a curated collection of Machine Learning blogs, open source projects, and tutorials contributed by developers around the world. Explore today for your next project!",
+    docsUrl: "https://www.tensorflow.org/",
     tags: [
       {
         label: "Mobile",
@@ -93,13 +93,49 @@ export const ALL_PRODUCTS: Record<string, ProductConfig> = {
         label: "Theory",
         value: "theory",
       },
+      {
+        label: "TensorFlow Core",
+        value: "tensorflow-core",
+      },
+      {
+        label: "TFX",
+        value: "tfx",
+      },
+      {
+        label: "TFLite",
+        value: "tflite",
+      },
+      {
+        label: "TensorFlow.js",
+        value: "tensorflow-js",
+      },
+      {
+        label: "Keras",
+        value: "keras",
+      },
+      {
+        label: "JAX/Flax",
+        value: "jax-flax",
+      },
+      {
+        label: "BigQuery ML",
+        value: "bigquery-ml",
+      },
+      {
+        label: "TPU",
+        value: "tpu",
+      },
+      {
+        label: "Other Google ML products",
+        value: "other-google-ml-products",
+      }
     ],
   },
   angular: {
     key: ProductKey.ANGULAR,
     name: "Angular",
     description:
-      "Angular is an open-source framework for developing large-scale frontend applications.",
+      "Angular simplifies web app development by using a structured, modular approach and libraries. These libraries provide reusable UI components, utility functions, and services, making it easier to build and maintain complex web apps. Dev Library has a curated collection of Angular blogs, open source projects, and tutorials contributed by developers around the world. Explore Dev Library today for your next project!",
     docsUrl: "https://angular.io/",
     tags: [
       {
@@ -136,7 +172,7 @@ export const ALL_PRODUCTS: Record<string, ProductConfig> = {
     key: ProductKey.FLUTTER,
     name: "Flutter",
     description:
-      "An open-source UI toolkit that makes it easy and fast to build beautiful mobile apps. Flutter apps run natively on iOS and Android and are powered by the Dart language.",
+      "Flutter is an open source framework for building fast, beautiful apps for iOS and Android, web, desktop, and more. It uses the Dart programming language, which provides a rich set of libraries and frameworks for building responsive, high-performance apps. Dev Library has a curated collection of Flutter blogs, open source projects, and tutorials contributed by developers around the world. ",
     docsUrl: "https://flutter.dev/",
     tags: [
       {
@@ -171,14 +207,13 @@ export const ALL_PRODUCTS: Record<string, ProductConfig> = {
         label: "Samples",
         value: "samples",
       },
-
     ],
   },
   cloud: {
     key: ProductKey.CLOUD,
     name: "Google Cloud",
     description:
-      "Meet your business challenges head on with cloud computing services from Google, including data management, hybrid & multi-cloud, and AI & ML.",
+      "Meet your business challenges head on with cloud computing services from Google, including data management, hybrid & multi-cloud, and AI & ML. Dev Library has a curated collection of Google Cloud blogs, open source projects, and tutorials contributed by developers around the world. Explore Dev Library today for your next Google Cloud project!",
     docsUrl: "https://cloud.google.com/docs",
     // Tags for Cloud are adapted as-needed from the "products" categories list on this page:
     // https://cloud.google.com/products
@@ -261,7 +296,7 @@ export const ALL_PRODUCTS: Record<string, ProductConfig> = {
     key: ProductKey.ANDROID,
     name: "Android",
     description:
-      "Modern tools and resources to help you build experiences that people love, faster and easier, across every Android device.",
+      "Modern tools and resources to help you build experiences that people love, faster and easier, across every Android device. Dev Library has a curated collection of Android blogs, open source projects, and tutorials contributed by developers around the world. Explore Dev Library today for your next Android project!",
     docsUrl: "https://developer.android.com/",
     tags: [
       {
@@ -297,34 +332,76 @@ export const ALL_PRODUCTS: Record<string, ProductConfig> = {
   assistant: {
     key: ProductKey.ASSISTANT,
     name: "Google Assistant",
-    description: "Google Assistant lets developers add voice-first functionality to their apps.",
+    description:
+      "Google Assistant lets developers add voice-first functionality to their apps. Dev Library has a curated collection of Google Assistant blogs, open source projects, and tutorials contributed by developers around the world. Explore Dev Library today for your next Google Assistant project!",
     docsUrl: "https://developers.google.com/assistant/docs",
     tags: [
-        {
-            label: "App actions",
-            value: "app-actions",
-        },
-        {
-            label: "Conversational Actions",
-            value: "assistant-conversation",
-        },
-        {
-            label: "Smart Home",
-            value: "smart-home",
-        },
-        {
-            label: "Web Content Actions",
-            value: "web-content-actions",
-        },
-        {
-            label: "Actions on Google",
-            value: "actions-on-google",
-        },
-        {
-            label: "Google Assistant",
-            value: "google-assistant",
-        },
-        
+      {
+        label: "App actions",
+        value: "app-actions",
+      },
+      {
+        label: "Conversational Actions",
+        value: "assistant-conversation",
+      },
+      {
+        label: "Smart Home",
+        value: "smart-home",
+      },
+      {
+        label: "Web Content Actions",
+        value: "web-content-actions",
+      },
+      {
+        label: "Actions on Google",
+        value: "actions-on-google",
+      },
+      {
+        label: "Google Assistant",
+        value: "google-assistant",
+      },
     ],
-},
+  },
+  maps: {
+    key: ProductKey.MAPS,
+    name: "Google Maps Platform",
+    description:
+      "Google Maps Platform lets developers create real-world, real-time experiences with the latest Maps, Routes, and Places features from Google Maps. Dev Library has a curated collection of Google Maps Platform blogs, open source projects, and tutorials contributed by developers around the world. Explore Dev Library today for your next Google Maps project!",
+
+    docsUrl: "https://developers.google.com/maps/documentation",
+    tags: [
+      {
+        label: "Maps",
+        value: "maps",
+      },
+      {
+        label: "Routes",
+        value: "routes",
+      },
+      {
+        label: "Places",
+        value: "places",
+      },
+      {
+        label: "Directions",
+        value: "directions",
+      },
+      {
+        label: "Geocoding",
+        value: "geocoding",
+      },
+      {
+        label: "Street View",
+        value: "street-view",
+      },
+      {
+        label: "Geolocation",
+        value: "geolocation",
+      },
+      {
+        label: "Google Maps",
+        value: "google-maps",
+      }
+    ],
+  },
 };
